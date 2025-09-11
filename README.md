@@ -11,7 +11,7 @@ It supports multiple content types (e.g. research outputs, datasets, organizatio
 - Append structured keywords (classification-based) and/or free keywords
 - Works with hybrid keyword groups (structured + free)
 - Version locking to prevent accidental overwrites
-- Supports **API Key** and **Basic Auth** authentication
+- Supports **Basic Auth** authentication (if relevant)
 - Handles different content types (research-outputs, datasets, organizations, etc.)
 - Dry-run mode for safe simulation before making changes
 
@@ -57,7 +57,6 @@ Interactive prompts will let you:
 2. Choose a keyword group from the allowed list
 3. If applicable, choose classifications from the allowed list
 4. Optionally add free keywords
-5. Confirm before updates are sent
 
 ---
 
