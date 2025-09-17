@@ -615,7 +615,7 @@ def main():
                         time.sleep(SLEEP)
                         continue
 
-                put_body = {"keywordGroups": groups}
+                put_body = {"version": version, "keywordGroups": groups}
 
                 if DRY_RUN:
                     print("  - DRY-RUN: would PUT updated keywordGroups.")
@@ -629,10 +629,18 @@ def main():
                     })
                 else:
                     headers = {}
-                    if version:
-                        headers["If-Match"] = version
                     put_url = f"{base}/{resource}/{uuid}"
                     r = req(s, "PUT", put_url, headers=headers, data=json.dumps(put_body))
+                    if r is not None and getattr(r, "status_code", None) == 412:
+                        # Version mismatch: re-GET latest object, update version in body, retry once
+                        get_r = req(s, "GET", put_url, headers=headers)
+                        if get_r is not None and getattr(get_r, "ok", False):
+                            latest = get_r.json()
+                            latest_version = latest.get("version")
+                            if latest_version:
+                                put_body["version"] = latest_version
+                                r = req(s, "PUT", put_url, headers=headers, data=json.dumps(put_body))
+
                     if r.status_code in (200, 204):
                         print("  - Updated ✓")
                         successes += 1

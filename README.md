@@ -61,7 +61,7 @@ Interactive prompts will let you:
 ---
 
 ## 🛡️ Safety
-- PUT requests include the **version** of each object (`If-Match`) to avoid overwriting concurrent edits.
+- PUT requests include the **version** of each object to avoid overwriting concurrent edits.
 - Existing keywords are preserved (append-only behavior).
 - If a UUID does not exist in Pure, it is skipped with a warning.
 - `DRY_RUN=True` lets you preview changes safely.
